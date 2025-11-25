@@ -1,0 +1,73 @@
+.title{
+    background-color: tomato;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-size: larger;
+    height:20px;
+    font-weight: 700;
+
+}
+.link{
+    margin: 10px 20px;
+    
+}
+#dov{
+    display: flex;
+    justify-content: center;
+}
+.container{
+    border-radius: 20px;
+    height: 400px;
+    width: 900px;
+}
+.h1 {
+    
+    font-family: Verdana, sans-serif;
+    color: tomato;
+    text-align: center;
+}
+
+.p1 {
+    font-family: Verdana, sans-serif;
+    color: tomato;
+    
+}
+.p2 {
+    color: tomato;
+    font-style: italic;
+}
+.p3 {
+    color: tomato;
+}
+.h2 {
+    color: tomato;
+}
+.li {
+    color: tomato;
+    padding-right: 50px;
+    padding-left: 0px;
+}
+span{
+    padding: 5px;
+    background-color: white;
+    color: tomato;
+    
+}
+.text{
+    padding-left: 170px;
+    padding-right: 170px;
+}
+.link1{
+    
+    margin: 10px 20px;
+    padding-left: 160px;
+}
+body{
+    background-color:antiquewhite;
+}
+.span1{
+    background-color: antiquewhite;
+    color: blue;
+    font-weight: 700;
+}
