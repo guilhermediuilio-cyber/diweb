@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Trama Literária - Seu Clube de Assinatura de Livros</title>
+    <!-- Carregamento do Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configurações de Cores e Fonte */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+        
+        :root {
+            --color-primary-dark: #4A2318; /* Marrom Escuro (Tinta) */
+            --color-secondary-light: #F7F3E8; /* Creme (Papel Antigo) */
+            --color-accent-gold: #B8860B; /* Ouro Velho (Destaque) */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--color-primary-dark);
+            background-color: var(--color-secondary-light);
+        }
+
+        /* Classe para o Botão Principal com Efeito Hover Estilizado */
+        .btn-primary {
+            background-color: var(--color-accent-gold);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-primary:hover {
+            background-color: #DAA520; /* Ouro mais claro no hover */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* CRITÉRIO II.1: USO OBRIGATÓRIO DE MEDIA QUERIES EXPLÍCITAS
+        Estas Media Queries adaptam o layout em pelo menos 3 breakpoints: Mobile, Tablet e Desktop.
+        */
+        
+        /* Padrão Mobile (menos de 768px) - Layout em coluna, fonte menor */
+        .hero-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem; /* 40px */
+            line-height: 1.1;
+        }
+
+        /* Tablet (min-width: 768px) - Exemplo de breakpoint */
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 4rem; /* 64px */
+                padding-top: 100px;
+                padding-bottom: 100px;
+            }
+            .section-padding {
+                padding-top: 5rem;
+                padding-bottom: 5rem;
+            }
+            .plan-card {
+                /* Exemplo de layout fluido: de 1 coluna para 2 colunas */
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Desktop (min-width: 1024px) - Exemplo de terceiro breakpoint */
+        @media (min-width: 1024px) {
+            .hero-title {
+                font-size: 5rem; /* 80px */
+            }
+            .plan-card {
+                /* Exemplo de layout fluido: para 3 colunas */
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Estilo para simular borda de livro no Hero */
+        .book-spine-shadow {
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- I.1. ESTRUTURA SEMÂNTICA: HEADER E NAVEGAÇÃO -->
+    <header class="bg-primary-dark sticky top-0 z-50 shadow-xl" style="background-color: var(--color-primary-dark);">
+        <div class="container mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold tracking-wider" style="color: var(--color-secondary-light);">
+                A Trama Literária
+            </a>
+            
+            <!-- Menu Desktop -->
+            <nav class="hidden md:flex space-x-6 lg:space-x-10 text-lg font-medium">
+                <a href="#planos" class="text-secondary-light hover:text-accent-gold transition duration-200" style="color: var(--color-secondary-light); transition: color 0.2s;">Planos</a>
+                <a href="#vantagens" class="text-secondary-light hover:text-accent-gold transition duration-200" style="color: var(--color-secondary-light); transition: color 0.2s;">Como Funciona</a>
+                <a href="#contato" class="text-secondary-light hover:text-accent-gold transition duration-200" style="color: var(--color-secondary-light); transition: color 0.2s;">Contato</a>
+                <button onclick="openModal('Inscrição Rápida')" class="btn-primary px-4 py-1 rounded-full text-base font-bold">
+                    Assinar Agora
+                </button>
+            </nav>
+
+            <!-- II.4. ELEMENTO INTERATIVO: MENU HAMBURGUER (Mobile) -->
+            <button id="menu-button" class="md:hidden text-secondary-light focus:outline-none" style="color: var(--color-secondary-light);">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Menu Dropdown Mobile -->
+        <nav id="mobile-menu" class="hidden md:hidden bg-primary-dark flex flex-col items-center border-t" style="border-color: rgba(255, 255, 255, 0.1);">
+            <a href="#planos" class="block py-3 w-full text-center text-secondary-light hover:bg-accent-gold transition duration-200">Planos</a>
+            <a href="#vantagens" class="block py-3 w-full text-center text-secondary-light hover:bg-accent-gold transition duration-200">Como Funciona</a>
+            <a href="#contato" class="block py-3 w-full text-center text-secondary-light hover:bg-accent-gold transition duration-200">Contato</a>
+            <button onclick="openModal('Assinatura Mobile')" class="w-full btn-primary py-3 font-bold">
+                Assinar Agora
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- I.1. ESTRUTURA SEMÂNTICA: HERO SECTION (SEÇÃO DE IMPACTO) -->
+        <section class="book-spine-shadow flex items-center justify-center text-center section-padding pt-20 pb-20 px-4" 
+            style="background-color: var(--color-secondary-light);">
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- I.3. CONTEÚDO RELEVANTE -->
+                <h2 class="hero-title font-bold" style="color: var(--color-primary-dark);">
+                    Desvende Histórias Inéditas Todo Mês.
+                </h2>
+                <p class="text-xl md:text-2xl mt-4 mb-8 text-gray-700">
+                    O clube de leitura que transforma sua experiência literária com curadoria de especialistas e brindes exclusivos.
+                </p>
+                <button onclick="openModal('Assinar Plano Destaque')" class="btn-primary text-xl px-10 py-4 rounded-lg font-bold">
+                    Quero Minha Caixa Literária!
+                </button>
+            </div>
+        </section>
+
+        <!-- I.1. ESTRUTURA SEMÂNTICA: PLANOS/PRODUTOS -->
+        <section id="planos" class="section-padding py-20 px-4 bg-gray-100">
+            <div class="container mx-auto">
+                <h3 class="text-4xl font-bold text-center mb-4" style="color: var(--color-primary-dark);">
+                    Escolha Sua Trama
+                </h3>
+                <p class="text-center text-lg text-gray-600 mb-12">
+                    Temos um plano perfeito para o seu ritmo de leitura.
+                </p>
+
+                <!-- II.1. LAYOUT FLUIDO E RESPONSIVO (Ajustado pelas Media Queries explícitas) -->
+                <div class="grid grid-cols-1 gap-8 plan-card max-w-6xl mx-auto">
+                    
+                    <!-- Plano 1: Aprendiz -->
+                    <article class="bg-white p-6 md:p-8 rounded-xl shadow-lg border-t-8 border-gray-400 transform hover:scale-[1.03] transition duration-300">
+                        <header>
+                            <h4 class="text-3xl font-bold mb-2" style="color: var(--color-primary-dark);">Aprendiz</h4>
+                            <p class="text-gray-500 mb-4">Para quem está começando a jornada literária.</p>
+                        </header>
+                        <!-- I.2. TAGS SEMÂNTICAS: FIGURE -->
+                        <figure class="my-4">
+                            <img src="https://placehold.co/400x250/F7F3E8/4A2318?text=1+Livro+Mês" alt="Capa de livro simples" class="rounded-lg w-full h-40 object-cover border-2 border-gray-200">
+                        </figure>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-6">
+                            <li>1 Livro Curado por Mês (Ficção Leve)</li>
+                            <li>Acesso ao Fórum Exclusivo</li>
+                            <li class="font-bold">R$ 49,90/mês</li>
+                        </ul>
+                        <button onclick="openModal('Assinar Plano Aprendiz')" class="w-full btn-primary py-3 rounded-full font-bold">
+                            Assinar Agora
+                        </button>
+                    </article>
+
+                    <!-- Plano 2: Explorador (Destaque) -->
+                    <article class="bg-white p-6 md:p-8 rounded-xl shadow-2xl border-t-8 border-accent-gold transform hover:scale-[1.03] transition duration-300 relative">
+                        <span class="absolute top-0 right-0 bg-accent-gold text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-xl">MAIS POPULAR</span>
+                        <header>
+                            <h4 class="text-3xl font-bold mb-2" style="color: var(--color-accent-gold);">Explorador</h4>
+                            <p class="text-gray-500 mb-4">A experiência completa com itens colecionáveis.</p>
+                        </header>
+                        <figure class="my-4">
+                            <img src="https://placehold.co/400x250/B8860B/4A2318?text=2+Livros+%2B+Brinde" alt="Capa de livro e brinde" class="rounded-lg w-full h-40 object-cover border-2 border-gray-200">
+                        </figure>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-6">
+                            <li>2 Livros (Ficção e Não-Ficção)</li>
+                            <li>Brinde Exclusivo (Caneca, Marcador, etc.)</li>
+                            <li class="font-bold">R$ 79,90/mês</li>
+                        </ul>
+                        <button onclick="openModal('Assinar Plano Explorador')" class="w-full btn-primary py-3 rounded-full font-bold">
+                            Assinar Agora
+                        </button>
+                    </article>
+                    
+                    <!-- Plano 3: Erudito -->
+                    <article class="bg-white p-6 md:p-8 rounded-xl shadow-lg border-t-8 border-gray-400 transform hover:scale-[1.03] transition duration-300 col-span-1 md:col-span-2 lg:col-span-1">
+                        <header>
+                            <h4 class="text-3xl font-bold mb-2" style="color: var(--color-primary-dark);">Erudito</h4>
+                            <p class="text-gray-500 mb-4">Para leitores vorazes e colecionadores.</p>
+                        </header>
+                        <figure class="my-4">
+                            <img src="https://placehold.co/400x250/F7F3E8/4A2318?text=3+Livros+%2B+Colecionável" alt="Três livros empilhados" class="rounded-lg w-full h-40 object-cover border-2 border-gray-200">
+                        </figure>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-6">
+                            <li>3 Livros Premium, incluindo edição de luxo</li>
+                            <li>Acesso a Eventos Online Exclusivos</li>
+                            <li class="font-bold">R$ 119,90/mês</li>
+                        </ul>
+                        <button onclick="openModal('Assinar Plano Erudito')" class="w-full btn-primary py-3 rounded-full font-bold">
+                            Assinar Agora
+                        </button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- I.1. ESTRUTURA SEMÂNTICA: VANTAGENS/COMO FUNCIONA -->
+        <section id="vantagens" class="section-padding py-20 px-4" style="background-color: var(--color-primary-dark);">
+            <div class="container mx-auto text-center max-w-4xl">
+                <h3 class="text-4xl font-bold mb-12" style="color: var(--color-secondary-light);">
+                    Como A Trama Literária Funciona
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+                    
+                    <!-- Vantagem 1 -->
+                    <article class="p-6 rounded-xl shadow-md bg-white">
+                        <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold" style="background-color: var(--color-accent-gold); color: white;">1</div>
+                        <h4 class="text-xl font-semibold mb-2" style="color: var(--color-primary-dark);">Curadoria</h4>
+                        <p class="text-sm text-gray-600">Nossos especialistas escolhem a dedo os melhores lançamentos e clássicos para você.</p>
+                    </article>
+
+                    <!-- Vantagem 2 -->
+                    <article class="p-6 rounded-xl shadow-md bg-white">
+                         <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold" style="background-color: var(--color-accent-gold); color: white;">2</div>
+                        <h4 class="text-xl font-semibold mb-2" style="color: var(--color-primary-dark);">Recebimento</h4>
+                        <p class="text-sm text-gray-600">Sua caixa literária chega em casa, com embalagem personalizada e cheiro de livro novo.</p>
+                    </article>
+
+                    <!-- Vantagem 3 -->
+                    <article class="p-6 rounded-xl shadow-md bg-white">
+                         <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold" style="background-color: var(--color-accent-gold); color: white;">3</div>
+                        <h4 class="text-xl font-semibold mb-2" style="color: var(--color-primary-dark);">Comunidade</h4>
+                        <p class="text-sm text-gray-600">Participe de discussões, encontros virtuais e interaja com outros leitores.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- I.1. ESTRUTURA SEMÂNTICA: FORMULÁRIO/CONTATO -->
+        <section id="contato" class="py-16 md:py-24 px-4 bg-secondary-light">
+            <div class="container mx-auto max-w-xl text-center">
+                <h3 class="text-4xl font-bold mb-4" style="color: var(--color-primary-dark);">
+                    Não Decidiu? Receba um Capítulo Grátis!
+                </h3>
+                <p class="text-lg text-gray-700 mb-8">
+                    Inscreva-se na nossa newsletter e ganhe um trecho exclusivo do livro do mês.
+                </p>
+                
+                <!-- I.2. TAGS SEMÂNTICAS: FORM -->
+                <form onsubmit="handleNewsletter(event)" class="space-y-4 bg-white p-8 rounded-xl shadow-lg border-2" style="border-color: var(--color-accent-gold);">
+                    <div role="group" aria-labelledby="newsletter-form-title">
+                        <label for="email-newsletter" class="sr-only">Seu E-mail</label>
+                        <input type="email" id="email-newsletter" placeholder="Seu Melhor E-mail Aqui" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent-gold focus:border-accent-gold" required>
+                    </div>
+                    <button type="submit" class="w-full btn-primary font-bold text-lg py-3 rounded-lg">
+                        Quero o Capítulo Grátis!
+                    </button>
+                    <p id="newsletter-message" class="text-center mt-4 hidden text-green-600 font-semibold">Inscrição realizada!</p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- I.1. ESTRUTURA SEMÂNTICA: FOOTER -->
+    <footer class="py-8" style="background-color: var(--color-primary-dark);">
+        <div class="container mx-auto px-4 text-center text-sm" style="color: var(--color-secondary-light);">
+            <p>&copy; 2025 A Trama Literária. Todos os direitos reservados.</p>
+            <p class="mt-2">Desenvolvido por Aluno(a) | Requisito: Landing Page Responsiva com Media Queries Explícitas.</p>
+        </div>
+    </footer>
+
+
+    <!-- II.4. ELEMENTO INTERATIVO: MODAL DE CONVERSÃO/CARRINHO (Simulação de Inscrição) -->
+    <div id="conversion-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-[100]">
+        <div class="bg-white p-6 md:p-8 rounded-xl max-w-sm w-11/12 shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <div class="flex justify-between items-start mb-4">
+                <h4 class="text-2xl font-bold" style="color: var(--color-primary-dark);">Confirme Sua Assinatura</h4>
+                <button id="close-modal-button" class="text-gray-400 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <p class="mb-4 text-lg">Você selecionou o plano:</p>
+            <p id="modal-plan-name" class="text-2xl font-bold mb-6" style="color: var(--color-accent-gold);">Plano Selecionado</p>
+
+            <form class="space-y-4">
+                <label for="name" class="block text-gray-700 font-medium">Nome Completo:</label>
+                <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent-gold focus:border-accent-gold" required>
+                
+                <label for="address" class="block text-gray-700 font-medium pt-2">Endereço de Entrega (Simulação):</label>
+                <textarea id="address" rows="2" placeholder="Rua, Número, Cidade, CEP" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-accent-gold focus:border-accent-gold" required></textarea>
+
+                <button type="submit" class="w-full btn-primary font-bold text-lg py-3 rounded-lg" onclick="handleSubscription(event)">
+                    Confirmar e Pagar (R$ XX,XX)
+                </button>
+            </form>
+            <p id="subscription-message" class="text-center mt-4 hidden text-green-600 font-semibold">Assinatura efetuada com sucesso!</p>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT para Interações do Menu e Modal -->
+    <script>
+        // III.2. CÓDIGO BEM FORMATADO E LEGÍVEL
+        
+        // 1. Variáveis e Seletores
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const conversionModal = document.getElementById('conversion-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const modalPlanName = document.getElementById('modal-plan-name');
+        const subscriptionMessage = document.getElementById('subscription-message');
+
+        // 2. Lógica do Menu Mobile
+        menuButton.addEventListener('click', () => {
+            // Alterna a visibilidade do menu mobile (Menu Hamburguer)
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Fechar o menu mobile ao clicar em um link
+        document.querySelectorAll('#mobile-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 3. Lógica para Abrir Modal (Elemento Interativo)
+        window.openModal = function(plan) {
+            subscriptionMessage.classList.add('hidden'); // Resetar mensagem de sucesso
+            modalPlanName.textContent = plan;
+            
+            // Define o texto do botão com o preço simulado
+            let price = 'R$ 49,90';
+            if (plan.includes('Explorador')) price = 'R$ 79,90';
+            else if (plan.includes('Erudito')) price = 'R$ 119,90';
+            
+            document.querySelector('#modal-content button').textContent = `Confirmar e Pagar (${price})`;
+
+            conversionModal.classList.remove('hidden');
+            conversionModal.classList.add('flex');
+            // Animação de entrada
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10); 
+        }
+
+        // 4. Lógica para Fechar Modal
+        function closeModal() {
+            // Animação de saída
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                conversionModal.classList.add('hidden');
+                conversionModal.classList.remove('flex');
+                // Resetar o formulário do modal
+                document.getElementById('name').value = '';
+                document.getElementById('address').value = '';
+            }, 300); 
+        }
+
+        closeModalButton.addEventListener('click', closeModal);
+        
+        // Fechar ao clicar no fundo escuro do modal
+        conversionModal.addEventListener('click', (e) => {
+            if (e.target === conversionModal) {
+                closeModal();
+            }
+        });
+
+        // 5. Simulação de Envio de Assinatura
+        window.handleSubscription = function(event) {
+            event.preventDefault(); 
+            
+            const selectedPlan = modalPlanName.textContent;
+            
+            // Simula o sucesso da transação
+            subscriptionMessage.textContent = `Plano ${selectedPlan} assinado! Bem-vindo(a) à Trama.`;
+            subscriptionMessage.classList.remove('hidden');
+
+            // Fecha o modal após 2.5 segundos
+            setTimeout(() => {
+                closeModal();
+            }, 2500); 
+        }
+
+        // 6. Simulação de Envio de Newsletter
+        window.handleNewsletter = function(event) {
+            event.preventDefault(); 
+            const emailInput = document.getElementById('email-newsletter');
+            const message = document.getElementById('newsletter-message');
+            
+            if (emailInput.checkValidity()) {
+                // Simula o envio do formulário
+                message.textContent = `Ótimo! O capítulo grátis foi enviado para ${emailInput.value}.`;
+                message.classList.remove('hidden');
+                
+                // Limpa o input
+                emailInput.value = '';
+
+                // Esconde a mensagem após 4 segundos
+                setTimeout(() => {
+                    message.classList.add('hidden');
+                }, 4000); 
+            }
+        }
+    </script>
+</body>
+</html>
